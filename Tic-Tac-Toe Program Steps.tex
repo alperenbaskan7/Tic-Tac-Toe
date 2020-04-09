@@ -1,0 +1,1151 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    \usepackage{ifvtex}
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Tic-Tac-Toe Program Steps}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{listsloops-and-functions-on-python}{%
+\section{Lists,Loops and Functions on
+Python}\label{listsloops-and-functions-on-python}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{programming\PYZus{}languages} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Python}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C++}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Java}\PY{l+s+s2}{\PYZdq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{programming\PYZus{}languages}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{programming\PYZus{}languages}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}here we use tuple tuples cannot be changed , lists can be changed }
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'tuple'>
+('Python', 'C', 'C++', 'Java')
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{game}\PY{p}{)} \PY{c+c1}{\PYZsh{} it prints all the list}
+\PY{k}{for} \PY{n}{rows} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:} \PY{c+c1}{\PYZsh{}to print above of each one }
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{rows}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+[1, 0, 0]
+[0, 1, 0]
+[0, 0, 1]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{seasons} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Spring}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summer}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Autumn}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{seasons}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[(0, 'Spring'), (1, 'Summer'), (2, 'Autumn'), (3, 'Winter')]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   a  b  c }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{count}\PY{p}{,}\PY{n}{rows} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{rows}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} enumerates the list elements by starting 0 and does not affect \PYZdq{}rows\PYZdq{} variable. }
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   a  b  c
+0 [1, 0, 0]
+1 [0, 1, 0]
+2 [0, 0, 1]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   a  b  c }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{count}\PY{p}{,}\PY{n}{rows} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{rows}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   a  b  c
+0 [1, 0, 0]
+1 [0, 1, 0]
+2 [0, 0, 1]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{30}\PY{p}{,}\PY{l+m+mi}{40}\PY{p}{,}\PY{l+m+mi}{50}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} starts 0. element and prints 4 element}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} starts 2.element prints till end}
+
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{9}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+\PY{n}{game}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{c+c1}{\PYZsh{}here there are list of lists , it means 2th element of 0 th list. }
+\PY{k}{for} \PY{n}{y} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[10, 20, 30, 40]
+[30, 40, 50]
+[1, 2, 3]
+[4, 5, 6]
+[7, 8, 9]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+\PY{k}{def} \PY{n+nf}{game\PYZus{}board}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   a  b  c }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{count}\PY{p}{,}\PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{row}\PY{p}{)}
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}paranthesis is necessary to run the function}
+\PY{n}{game}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{58} 
+\PY{n}{x} \PY{o}{=} \PY{n}{game\PYZus{}board} \PY{c+c1}{\PYZsh{} we are just defining not run the function so paranthesis are not required here}
+\PY{n}{x}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} again here we call the function and make it run}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   a  b  c
+0 [1, 0, 0]
+1 [0, 1, 0]
+2 [0, 0, 1]
+   a  b  c
+0 [1, 0, 0]
+1 [0, 1, 0]
+2 [58, 0, 1]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+ \PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{game\PYZus{}board}\PY{p}{(}\PY{n}{player}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{row}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   0  1  2 }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{just\PYZus{}display}\PY{p}{:} \PY{c+c1}{\PYZsh{}enters this conditions when user inputs}
+        \PY{n}{game}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{n}{player} \PY{c+c1}{\PYZsh{}the move by the user}
+    \PY{k}{for} \PY{n}{count} \PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{row}\PY{p}{)}
+
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{c+c1}{\PYZsh{}prints the initial output which has all zero.      }
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{player} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,}\PY{n}{row}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}       
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   0  1  2
+0 [0, 0, 0]
+1 [0, 0, 0]
+2 [0, 0, 0]
+   0  1  2
+0 [0, 0, 0]
+1 [0, 0, 0]
+2 [0, 1, 0]
+    \end{Verbatim}
+
+    \hypertarget{mutability-in-python}{%
+\section{Mutability in Python}\label{mutability-in-python}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I want to play a game}\PY{l+s+s2}{\PYZdq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{game}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{id}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{}id is equivalent the memory address in C, it is unique}
+
+\PY{k}{def} \PY{n+nf}{game\PYZus{}func}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{game} \PY{c+c1}{\PYZsh{}helps us to change global variable}
+    \PY{n}{game} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{just play a game}\PY{l+s+s2}{\PYZdq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{id}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} function is not called yet}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{game}\PY{p}{)}
+\PY{n}{game\PYZus{}func}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{id}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} since we change global variable in the function}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{game}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+I want to play a game
+1430420195728
+1430420195728
+I want to play a game
+1430420195648
+just play a game
+    \end{Verbatim}
+
+    \hypertarget{using-return-on-functions}{%
+\section{Using return on functions}\label{using-return-on-functions}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{no\PYZus{}return}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+    \PY{n}{c} \PY{o}{=} \PY{n}{x} \PY{o}{+} \PY{n}{y}
+\PY{c+c1}{\PYZsh{} no\PYZus{}return function does not return anything    }
+    
+\PY{n}{res} \PY{o}{=} \PY{n}{no\PYZus{}return}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+None
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{no\PYZus{}return}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{)}\PY{p}{:}
+    \PY{n}{c} \PY{o}{=} \PY{n}{x} \PY{o}{+} \PY{n}{y}
+    \PY{k}{return} \PY{n}{c} \PY{c+c1}{\PYZsh{}function returns c value here}
+    
+\PY{n}{res} \PY{o}{=} \PY{n}{no\PYZus{}return}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+9
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} That program must be runned in PyCharm there is different output here last output shouldnt exist}
+\PY{n}{game} \PY{o}{=} \PY{p}{[} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{game\PYZus{}board}\PY{p}{(}\PY{n}{game\PYZus{}now}\PY{p}{,}\PY{n}{player}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{row}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   0  1  2 }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{just\PYZus{}display}\PY{p}{:} \PY{c+c1}{\PYZsh{}enters this conditions when user inputs}
+        \PY{n}{game\PYZus{}now}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{n}{player} \PY{c+c1}{\PYZsh{}the move by the user}
+    \PY{k}{for} \PY{n}{count} \PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game\PYZus{}now}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{row}\PY{p}{)} 
+    \PY{k}{return} \PY{n}{game\PYZus{}now} 
+
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game}\PY{p}{,}\PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game}\PY{p}{,}\PY{n}{player} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,}\PY{n}{row}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   0  1  2
+0 [0, 0, 0]
+1 [0, 0, 0]
+2 [0, 0, 0]
+   0  1  2
+0 [0, 0, 0]
+1 [0, 0, 0]
+2 [0, 1, 0]
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+[[0, 0, 0], [0, 0, 0], [0, 1, 0]]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x} \PY{o}{=} \PY{l+m+mi}{1}
+\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{x} \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{test}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{} To change global variable we must write global x}
+
+
+\PY{n}{x} \PY{o}{=} \PY{l+m+mi}{1}
+\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{x}
+    \PY{n}{x} \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{test}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{} global variable changed in the function}
+
+
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{test}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{} again global variable is not changed}
+
+
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{global} \PY{n}{x}
+    \PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{test}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{}[2] due to global x definition}
+
+
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{k}{def} \PY{n+nf}{test}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{test}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{} it is the proof of that elements of lists can be changed by not writing global x here.}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1
+2
+[1]
+[2]
+[2, 5, 1]
+    \end{Verbatim}
+
+    \hypertarget{error-handling-in-python}{%
+\section{Error Handling in Python}\label{error-handling-in-python}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+         \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{game\PYZus{}board}\PY{p}{(}\PY{n}{game\PYZus{}now}\PY{p}{,}\PY{n}{player}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{row}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:} \PY{c+c1}{\PYZsh{} program will try using the function assignments, if user enters invalid input , program shows error message by except}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   0  1  2 }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{just\PYZus{}display}\PY{p}{:} \PY{c+c1}{\PYZsh{}enters this conditions when user inputs}
+            \PY{n}{game\PYZus{}now}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{n}{player} \PY{c+c1}{\PYZsh{}the move by the user}
+        \PY{k}{for} \PY{n}{count} \PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game\PYZus{}now}\PY{p}{)}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{row}\PY{p}{)} 
+        \PY{k}{return} \PY{n}{game\PYZus{}now} 
+    \PY{k}{except} \PY{n+ne}{IndexError} \PY{k}{as} \PY{n}{e}\PY{p}{:} \PY{c+c1}{\PYZsh{}invalid user input condition }
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: make sure that you entered 0,1 or 2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{e}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Something went really wrong!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{e}\PY{p}{)}
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game}\PY{p}{,}\PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game\PYZus{}board}\PY{p}{,}\PY{n}{player} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{,}\PY{n}{row}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} 
+\PY{c+c1}{\PYZsh{}write game instead of game\PYZus{}board to observe the other error}
+
+\PY{c+c1}{\PYZsh{} there is no row=3 instead of showing the error , program says make sure that you entered 0,1 or 2}
+\PY{c+c1}{\PYZsh{} when game\PYZus{}board is entered which does not exist , program says Something went really wrong!}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   0  1  2
+0 [0, 0, 0]
+1 [0, 0, 0]
+2 [0, 0, 0]
+   0  1  2
+Something went really wrong! 'function' object is not subscriptable
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{p}{]}
+
+\PY{k}{def} \PY{n+nf}{win} \PY{p}{(}\PY{n}{current\PYZus{}game}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+        \PY{n}{all\PYZus{}match} \PY{o}{=} \PY{k+kc}{True}
+        \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{row}\PY{p}{:}
+            \PY{k}{if} \PY{n}{item}\PY{o}{!=} \PY{n}{row}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}
+                \PY{n}{all\PYZus{}match} \PY{o}{=} \PY{k+kc}{False}
+        \PY{k}{if} \PY{n}{all\PYZus{}match}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{winner}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{win}\PY{p}{(}\PY{n}{game}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} here the code compares the row elements (horizontal)  }
+\PY{c+c1}{\PYZsh{} and decides if they are equal, prints winner if they re equal}
+\PY{c+c1}{\PYZsh{} it is just horizontal tic tac toe program}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[2, 2, 0]
+[2, 2, 2]
+winner
+[0, 1, 2]
+    \end{Verbatim}
+
+    \hypertarget{checking-if-the-horizontal-elements-are-the-same}{%
+\section{Checking if the horizontal elements are the
+same}\label{checking-if-the-horizontal-elements-are-the-same}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{p}{]}
+
+
+\PY{k}{def} \PY{n+nf}{win}\PY{p}{(}\PY{n}{current\PYZus{}game}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+        \PY{k}{if} \PY{n}{row}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{row}\PY{p}{)} \PY{o+ow}{and} \PY{n}{row}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winner!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{win}\PY{p}{(}\PY{n}{game}\PY{p}{)} 
+
+\PY{c+c1}{\PYZsh{}x.count(x[0]) == len(x) is a special function to compare elements of row}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[2, 2, 0]
+[2, 2, 2]
+Winner!
+[0, 1, 2]
+    \end{Verbatim}
+
+    \hypertarget{checking-if-the-vertical-elements-are-the-same}{%
+\section{Checking if the vertical elements are the
+same}\label{checking-if-the-vertical-elements-are-the-same}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} it is like a basic for loop starts counting 0 to 3}
+    \PY{n}{check} \PY{o}{=} \PY{p}{[}\PY{p}{]} \PY{c+c1}{\PYZsh{} it is for assigning column elements and check if they are the same.}
+    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:} \PY{c+c1}{\PYZsh{} adds row elements to check one by one}
+        \PY{n}{check}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} adds first elements of row to check list.after second and third}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{check}\PY{p}{)}
+    \PY{k}{if} \PY{n}{check}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{check}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{check}\PY{p}{)} \PY{o+ow}{and} \PY{n}{check}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} controls if check has same elements to decide if game is won}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winner!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[2]
+[2, 2]
+[2, 2, 1]
+[1]
+[1, 1]
+[1, 1, 1]
+Winner!
+[1]
+[1, 2]
+[1, 2, 1]
+    \end{Verbatim}
+
+    \hypertarget{checking-if-the-diagonal-elements-are-the-same}{%
+\section{Checking if the diagonal elements are the
+same}\label{checking-if-the-diagonal-elements-are-the-same}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{n}{diag} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{ix} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{diag}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{game}\PY{p}{[}\PY{n}{ix}\PY{p}{]}\PY{p}{[}\PY{n}{ix}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{diag}\PY{p}{)}
+\PY{k}{if} \PY{n}{diag}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{diag}\PY{p}{)} \PY{o+ow}{and} \PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+       \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winner!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}    
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1]
+[1, 1]
+[1, 1, 1]
+Winner!
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}as seen below , we can use enumerate instead of zip here}
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{n}{cols} \PY{o}{=} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{rows} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}
+\PY{n}{diag} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{col}\PY{p}{,}\PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{cols}\PY{p}{,}\PY{n}{rows}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{col}\PY{p}{,}\PY{n}{row}\PY{p}{)}
+    \PY{n}{diag}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{game}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{diag}\PY{p}{)}
+
+\PY{k}{if} \PY{n}{diag}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{diag}\PY{p}{)} \PY{o+ow}{and} \PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+       \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winner!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2 0
+[1]
+1 1
+[1, 1]
+0 2
+[1, 1, 1]
+Winner!
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
+        \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+        \PY{p}{]}
+
+\PY{n}{diag} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{col}\PY{p}{,}\PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{col}\PY{p}{,}\PY{n}{row}\PY{p}{)}
+    \PY{n}{diag}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{game}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{diag}\PY{p}{)}
+
+\PY{k}{if} \PY{n}{diag}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{diag}\PY{p}{)} \PY{o+ow}{and} \PY{n}{diag}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Winner!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0 2
+[1]
+1 1
+[1, 1]
+2 0
+[1, 1, 1]
+Winner!
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}this code make us jump to next element every time}
+\PY{k+kn}{import} \PY{n+nn}{itertools}
+
+\PY{n}{x} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]} \PY{c+c1}{\PYZsh{} iterable}
+
+\PY{n}{n}\PY{o}{=} \PY{n}{itertools}\PY{o}{.}\PY{n}{cycle}\PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{c+c1}{\PYZsh{} iterator also iterable}
+
+\PY{n}{y}\PY{o}{=} \PY{n+nb}{iter}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{c+c1}{\PYZsh{} iterator also iterable}
+
+\PY{n+nb}{next}\PY{p}{(}\PY{n}{y}\PY{p}{)} \PY{c+c1}{\PYZsh{}makes y = 2 }
+
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{y}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{y}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2
+3
+4
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Here we want to display 0 1 2 }
+\PY{n}{game\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   0  1  2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{s} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{game\PYZus{}size}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} here it can be printed by two ways as shown}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{s}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   0  1  2
+   0  1  2
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} dictionaries }
+
+\PY{n}{dictionaries} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{key1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{key2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{l+m+mi}{32}\PY{p}{\PYZcb{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{dictionaries}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{key1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{dictionaries}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hithere}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{92}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{dictionaries}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+15
+\{'key1': 15, 'key2': 32, 'hithere': 92\}
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{game\PYZus{}size} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{What size of tic tac toe do you want to play?:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{game\PYZus{}size}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{game\PYZus{}size}\PY{p}{)}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{game}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+What size of tic tac toe do you want to play?:3
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Please copy this code to any compiler to see damn colours }
+
+\PY{k+kn}{import} \PY{n+nn}{itertools}
+\PY{k+kn}{from} \PY{n+nn}{colorama} \PY{k+kn}{import} \PY{n}{Fore}\PY{p}{,}\PY{n}{Back}\PY{p}{,}\PY{n}{Style}\PY{p}{,}\PY{n}{init}
+\PY{n}{init}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{win}\PY{p}{(}\PY{n}{current\PYZus{}game}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf}{all\PYZus{}same}\PY{p}{(}\PY{n}{l}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{l}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{n}{l}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{==} \PY{n+nb}{len}\PY{p}{(}\PY{n}{l}\PY{p}{)} \PY{o+ow}{and} \PY{n}{l}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{k}{return} \PY{k+kc}{True}
+        \PY{k}{else}\PY{p}{:}
+            \PY{k}{return} \PY{k+kc}{False}
+
+    \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{}print(row)}
+        \PY{k}{if} \PY{n}{all\PYZus{}same}\PY{p}{(}\PY{n}{row}\PY{p}{)}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Player }\PY{l+s+si}{\PYZob{}row[0]\PYZcb{}}\PY{l+s+s2}{ is the Winner,horizontally!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{k+kc}{True}
+
+        \PY{n}{diag} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{col}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+            \PY{n}{diag}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{game}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+        \PY{k}{if} \PY{n}{all\PYZus{}same}\PY{p}{(}\PY{n}{diag}\PY{p}{)}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Player }\PY{l+s+si}{\PYZob{}diag[0]\PYZcb{}}\PY{l+s+s2}{ is the winner diagonally(/)!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{k+kc}{True}
+
+    \PY{n}{diag} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+    \PY{k}{for} \PY{n}{ix} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{diag}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{game}\PY{p}{[}\PY{n}{ix}\PY{p}{]}\PY{p}{[}\PY{n}{ix}\PY{p}{]}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}print(diag)}
+    \PY{k}{if} \PY{n}{all\PYZus{}same}\PY{p}{(}\PY{n}{diag}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Player }\PY{l+s+si}{\PYZob{}diag[0]\PYZcb{}}\PY{l+s+s2}{ is the Winner,diagonally  (}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{)!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{return} \PY{k+kc}{True}
+
+    \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{)}\PY{p}{:}  \PY{c+c1}{\PYZsh{} it is like a basic for loop starts counting 0 to 3}
+        \PY{n}{check} \PY{o}{=} \PY{p}{[}\PY{p}{]}  \PY{c+c1}{\PYZsh{} it is for assigning column elements and check if they are the same.}
+        \PY{k}{for} \PY{n}{row} \PY{o+ow}{in} \PY{n}{game}\PY{p}{:}  \PY{c+c1}{\PYZsh{} adds row elements to check one by one}
+            \PY{n}{check}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}  \PY{c+c1}{\PYZsh{} adds first elements of row to check list.after second and third}
+        \PY{k}{if} \PY{n}{all\PYZus{}same}\PY{p}{(}\PY{n}{check}\PY{p}{)} \PY{p}{:} \PY{c+c1}{\PYZsh{} controls if check has same elements to decide if game is won}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Player }\PY{l+s+si}{\PYZob{}check[0]\PYZcb{}}\PY{l+s+s2}{ is the winner verticially!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{k+kc}{True}
+    \PY{k}{return} \PY{k+kc}{False}
+
+
+\PY{k}{def} \PY{n+nf}{game\PYZus{}board}\PY{p}{(}\PY{n}{game\PYZus{}map}\PY{p}{,}\PY{n}{player}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{row}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{column}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{:}
+    \PY{k}{try}\PY{p}{:}\PY{c+c1}{\PYZsh{} program will try using the function assignments, if user enters invalid input , program shows error message by except7}
+        \PY{k}{if} \PY{n}{game\PYZus{}map}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{This position is occupado! Choose another!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{return} \PY{n}{game\PYZus{}map}\PY{p}{,}\PY{k+kc}{False}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{   }\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{game\PYZus{}map}\PY{p}{)}\PY{p}{)}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{k}{if} \PY{o+ow}{not} \PY{n}{just\PYZus{}display}\PY{p}{:} \PY{c+c1}{\PYZsh{}enters this conditions when user inputs}
+            \PY{n}{game\PYZus{}map}\PY{p}{[}\PY{n}{row}\PY{p}{]}\PY{p}{[}\PY{n}{column}\PY{p}{]} \PY{o}{=} \PY{n}{player} \PY{c+c1}{\PYZsh{}the move by the user}
+        \PY{k}{for} \PY{n}{count} \PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{game\PYZus{}map}\PY{p}{)}\PY{p}{:}
+            \PY{n}{colored\PYZus{}row} \PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}
+            \PY{k}{for} \PY{n}{item} \PY{o+ow}{in} \PY{n}{row}\PY{p}{:}
+                \PY{k}{if} \PY{n}{item} \PY{o}{==}\PY{l+m+mi}{0}\PY{p}{:}
+                    \PY{n}{colored\PYZus{}row} \PY{o}{+}\PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}
+                \PY{k}{elif} \PY{n}{item} \PY{o}{==}\PY{l+m+mi}{1} \PY{p}{:}
+                    \PY{n}{colored\PYZus{}row} \PY{o}{+}\PY{o}{=} \PY{n}{Fore}\PY{o}{.}\PY{n}{GREEN} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ X }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{Style}\PY{o}{.}\PY{n}{RESET\PYZus{}ALL}
+                \PY{k}{elif} \PY{n}{item} \PY{o}{==}\PY{l+m+mi}{2} \PY{p}{:}
+                    \PY{n}{colored\PYZus{}row} \PY{o}{+}\PY{o}{=} \PY{n}{Fore}\PY{o}{.}\PY{n}{MAGENTA} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ O }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{Style}\PY{o}{.}\PY{n}{RESET\PYZus{}ALL}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{count}\PY{p}{,}\PY{n}{colored\PYZus{}row}\PY{p}{)}
+
+
+        \PY{k}{return} \PY{n}{game\PYZus{}map}\PY{p}{,}\PY{k+kc}{True}
+
+    \PY{k}{except} \PY{n+ne}{IndexError} \PY{k}{as} \PY{n}{e}\PY{p}{:} \PY{c+c1}{\PYZsh{}invalid user input condition}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: make sure that you entered 0,1 or 2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{e}\PY{p}{)}
+        \PY{k}{return} \PY{n}{game\PYZus{}map}\PY{p}{,}\PY{k+kc}{False}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Something went really wrong!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{e}\PY{p}{)}
+        \PY{k}{return} \PY{n}{game\PYZus{}map}\PY{p}{,}\PY{k+kc}{False}
+\PY{n}{play}\PY{o}{=} \PY{k+kc}{True}
+\PY{n}{players} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{k}{while} \PY{n}{play}\PY{p}{:}
+    \PY{n}{game} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+            \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+            \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+            \PY{p}{]}
+    \PY{n}{game\PYZus{}won} \PY{o}{=} \PY{k+kc}{False}
+    \PY{n}{game}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game}\PY{p}{,}\PY{n}{just\PYZus{}display}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{player\PYZus{}choice} \PY{o}{=} \PY{n}{itertools}\PY{o}{.}\PY{n}{cycle}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+    \PY{k}{while} \PY{o+ow}{not} \PY{n}{game\PYZus{}won}\PY{p}{:}
+        \PY{n}{current\PYZus{}player} \PY{o}{=} \PY{n+nb}{next}\PY{p}{(}\PY{n}{player\PYZus{}choice}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Current player:}\PY{l+s+si}{\PYZob{}current\PYZus{}player\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{played} \PY{o}{=} \PY{k+kc}{False}
+
+        \PY{k}{while} \PY{o+ow}{not} \PY{n}{played}\PY{p}{:}
+            \PY{n}{column\PYZus{}choice} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{What column do you want to play? (0,1,2):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+            \PY{n}{row\PYZus{}choice} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{What row do you want to play? (0,1,2):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+            \PY{n}{game}\PY{p}{,}\PY{n}{played} \PY{o}{=} \PY{n}{game\PYZus{}board}\PY{p}{(}\PY{n}{game}\PY{p}{,}\PY{n}{current\PYZus{}player}\PY{p}{,}\PY{n}{row\PYZus{}choice}\PY{p}{,}\PY{n}{column\PYZus{}choice}\PY{p}{)}
+        \PY{k}{if} \PY{n}{win}\PY{p}{(}\PY{n}{game}\PY{p}{)}\PY{p}{:}
+            \PY{n}{game\PYZus{}won} \PY{o}{=} \PY{k+kc}{True}
+            \PY{n}{again} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The game is over would you like to play again? (y/n)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{if} \PY{n}{again}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{restarting}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{elif} \PY{n}{again}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bye then}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+                \PY{n}{play} \PY{o}{=} \PY{k+kc}{False}
+            \PY{k}{else} \PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Invalid answer see you later}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+                \PY{n}{play} \PY{o}{=} \PY{k+kc}{False}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+   0  1  2
+0
+1
+2
+Current player:1
+What column do you want to play? (0,1,2):0
+What row do you want to play? (0,1,2):0
+   0  1  2
+0  X
+1
+2
+Current player:2
+What column do you want to play? (0,1,2):1
+What row do you want to play? (0,1,2):1
+   0  1  2
+0  X
+1    O
+2
+Current player:1
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
